@@ -38,7 +38,7 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
     newCounters[action.counterIndex] = updatedCounter;
     user.counters = newCounters;
     newUsers = state.users;
-    newUsers[action.username] = user;
+    newUsers[state.currentUser] = user;
     newState = {
       ...state,
       users: newUsers
@@ -58,7 +58,7 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
     newCounters[action.counterIndex] = updatedCounter;
     user.counters = newCounters;
     newUsers = state.users;
-    newUsers[action.username] = user;
+    newUsers[state.currentUser] = user;
     newState = {
       ...state,
       users: newUsers
@@ -75,7 +75,7 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
       }
     ];
     newUsers = state.users;
-    newUsers[action.username] = user;
+    newUsers[state.currentUser] = user;
     newState = {
       ...state,
       users: newUsers
@@ -90,7 +90,7 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
     newCounters.splice(action.counterIndex, 1);
     user.counters = newCounters;
     newUsers = state.users;
-    newUsers[action.username] = user;
+    newUsers[state.currentUser] = user;
     newState = {
       ...state,
       users: newUsers
@@ -101,7 +101,7 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
     user = state.users[state.currentUser];
     user.maxCounters = parseInt(action.maxCounters);
     newUsers = state.users;
-    newUsers[action.username] = user;
+    newUsers[state.currentUser] = user;
     newState = {
       ...state,
       users: newUsers
