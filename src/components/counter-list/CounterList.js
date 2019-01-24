@@ -31,9 +31,9 @@ class CounterList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, otherProps) => {
   return {
-    counters: state.counters
+    counters: state.users[otherProps.currentUser].counters
   };
 };
 
@@ -52,6 +52,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 CounterList.propTypes = {
+  currentUser: PropTypes.string.isRequired,
   counters: PropTypes.array.isRequired,
   onClickCounter: PropTypes.func.isRequired,
   onDeleteCounter: PropTypes.func.isRequired,

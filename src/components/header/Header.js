@@ -1,33 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class Header extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: ''
-    };
-  }
-
-  handleTextChange = (event) => {
+function Header(props) {
+  const handleLogout = (event) => {
     event.preventDefault();
-    this.setState({
-      username: event.target.value
-    });
-  }
+    props.onLogout();
+  };
 
-  render() {
-    const { username } = this.state;
-
-    return (
-      <header className='header'>
-        <form className='form'>
-          <div className='form__control form__control--small'>
-            <label className='form__label form__label--small'>Username</label>
-            <input className='form__input form__input--small form__input--white' type='text' value={username} onChange={this.handleTextChange}></input>
-          </div>
-          <button className='button button__text' type='submit'>Login</button>
-        </form>
-      </header>
-    );
-  }
+  return (
+    <header className='header'>
+      <button className='button button__text' type='button' onClick={handleLogout}>Logout</button>
+    </header>
+  );
 }
+
+Header.propTypes = {
+  onLogout: PropTypes.func.isRequired
+};
+
+export default Header;

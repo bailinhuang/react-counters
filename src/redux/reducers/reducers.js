@@ -1,75 +1,154 @@
 import Actions from '../actions/actions';
 
 const INITIAL_STATE = {
-  maxCounters: 0,
-  counters: []
+  currentUser: '',
+  users: {}
 };
 
+function getLocalStorage() {
+  return JSON.parse(localStorage.getItem('counterAppData'));
+}
+
+function saveLocalStorage(newState) {
+  return localStorage.setItem('counterAppData', JSON.stringify(newState));
+}
+
+function getSessionStorage() {
+  return sessionStorage.getItem('loggedUser') || '';
+}
+
+function saveSessionStorage(username) {
+  return sessionStorage.setItem('loggedUser', username);
+}
+
 const CounterReducer = (state = INITIAL_STATE, action) => {
-  let counter, updatedCounter, newCounters;
+  let counter, updatedCounter, newCounters, user, newUsers, newState = {};
   switch (action.type) {
+
   case Actions.CLICK_COUNTER:
-    counter = state.counters[action.counterIndex];
+    user = state.users[state.currentUser];
+    counter = user.counters[action.counterIndex];
     updatedCounter = {
       ...counter,
       numberOfClicks: counter.numberOfClicks + 1
     };
     newCounters = [
-      ...state.counters
+      ...user.counters
     ];
     newCounters[action.counterIndex] = updatedCounter;
-    return {
+    user.counters = newCounters;
+    newUsers = state.users;
+    newUsers[action.username] = user;
+    newState = {
       ...state,
-      counters: newCounters
+      users: newUsers
     };
+    break;
+
   case Actions.RESET_COUNTER:
-    counter = state.counters[action.counterIndex];
+    user = state.users[state.currentUser];
+    counter = user.counters[action.counterIndex];
     updatedCounter = {
       ...counter,
       numberOfClicks: 0
     };
     newCounters = [
-      ...state.counters
+      ...user.counters
     ];
     newCounters[action.counterIndex] = updatedCounter;
-    return {
+    user.counters = newCounters;
+    newUsers = state.users;
+    newUsers[action.username] = user;
+    newState = {
       ...state,
-      counters: newCounters
+      users: newUsers
     };
+    break;
+
   case Actions.ADD_COUNTER:
-    return Object.assign(
-      {},
-      state,
+    user = state.users[state.currentUser];
+    user.counters = [
+      ...user.counters,
       {
-        counters: [
-          ...state.counters,
-          {
-            name: action.counterName,
-            numberOfClicks: 0
-          }
-        ]
+        name: action.counterName,
+        numberOfClicks: 0
       }
-    );
+    ];
+    newUsers = state.users;
+    newUsers[action.username] = user;
+    newState = {
+      ...state,
+      users: newUsers
+    };
+    break;
+
   case Actions.DELETE_COUNTER:
+    user = state.users[state.currentUser];
     newCounters = [
-      ...state.counters
+      ...user.counters
     ];
     newCounters.splice(action.counterIndex, 1);
-    return {
+    user.counters = newCounters;
+    newUsers = state.users;
+    newUsers[action.username] = user;
+    newState = {
       ...state,
-      counters: newCounters
+      users: newUsers
     };
+    break;
+
   case Actions.SET_MAX_COUNTERS:
-    return Object.assign(
-      {},
-      state,
-      {
-        maxCounters: action.maxCounters
-      }
-    );
+    user = state.users[state.currentUser];
+    user.maxCounters = parseInt(action.maxCounters);
+    newUsers = state.users;
+    newUsers[action.username] = user;
+    newState = {
+      ...state,
+      users: newUsers
+    };
+    break;
+
+  case Actions.LOGIN:
+    user = state.users[action.username];
+    if (!user) {
+      user = {
+        maxCounters: 0,
+        counters: []
+      };
+    }
+    newUsers = state.users;
+    newUsers[action.username] = user;
+    saveSessionStorage(action.username);
+    newState = {
+      ...state,
+      currentUser: action.username,
+      users: newUsers
+    };
+    break;
+
+  case Actions.LOGOUT: 
+    newState = {
+      ...state,
+      currentUser: '',
+    };
+    saveSessionStorage('');
+    break;
+
   default:
-    return state;
+    newState = {
+      ...getLocalStorage(),
+      currentUser: getSessionStorage()
+    };
+    break;
   }
+  saveLocalStorage(newState);
+  return Object.assign(
+    {},
+    state,
+    {
+      ...newState
+    }
+  );
 };
 
 export default CounterReducer;
