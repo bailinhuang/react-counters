@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Description
+
+This app was created for practicing React, Redux, LocalStorage and SessionStorage. Users can log-in with username and create counters. Each counter counts the number of clicks it receives, you can pause the counter, reset the counter, or delete the counter.
+
 ## Available Scripts
 
 In the project directory, you can run:
