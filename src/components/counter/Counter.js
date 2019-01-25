@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class Counter extends Component {
   constructor() {
@@ -12,11 +13,6 @@ export default class Counter extends Component {
   handleAdd(event) {
     event.preventDefault();
     this.props.onClickCounter(this.props.counterIndex);
-  }
-
-  handleDelete(event) {
-    event.preventDefault();
-    this.props.onDeleteCounter(this.props.counterIndex);
   }
 
   handleReset(event) {
@@ -33,12 +29,12 @@ export default class Counter extends Component {
 
   render() {
     const { paused } = this.state;
-    const { name, numberOfClicks } = this.props;
+    const { name, numberOfClicks, currentUser, counterIndex } = this.props;
     return (
       <div className='counter'>
         <div className='counter__title'>
           <p className='counter__name'>{name}</p>
-          <button className='book__button button button--small button--red' type='button' onClick={(event) => {this.handleDelete(event);}}><i className="material-icons">clear</i></button>
+          <Link to={`/counter?user=${currentUser}&counterIndex=${counterIndex}`} className='book__button button button--small'><i className="material-icons">settings</i></Link>
         </div>
         <div className='counter__details'>
           <p className='counter__clicks'>{numberOfClicks}</p>
@@ -54,11 +50,11 @@ export default class Counter extends Component {
 }
 
 Counter.propTypes = {
+  currentUser: PropTypes.string.isRequired,
   counterIndex: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   numberOfClicks: PropTypes.number,
   onClickCounter: PropTypes.func.isRequired,
-  onDeleteCounter: PropTypes.func.isRequired,
   onResetCounter: PropTypes.func.isRequired
 };
 

@@ -21,6 +21,11 @@ function saveSessionStorage(username) {
   return sessionStorage.setItem('loggedUser', username);
 }
 
+function getCurrentTimestamp() {
+  const today = new Date();
+  return `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()} at ${today.getHours()}:${today.getMinutes()}`; 
+}
+
 const CounterReducer = (state = INITIAL_STATE, action) => {
   let counter, updatedCounter, newCounters, user, newUsers, newState = {};
   switch (action.type) {
@@ -32,6 +37,10 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
       ...counter,
       numberOfClicks: counter.numberOfClicks + 1
     };
+    if (updatedCounter.numberOfClicks === 1) {
+      updatedCounter.firstClickTimestamp = getCurrentTimestamp();
+    }
+    updatedCounter.lastClickTimestamp = getCurrentTimestamp();
     newCounters = [
       ...user.counters
     ];
@@ -71,7 +80,10 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
       ...user.counters,
       {
         name: action.counterName,
-        numberOfClicks: 0
+        numberOfClicks: 0,
+        creationTimestamp: getCurrentTimestamp(),
+        firstClickTimestamp: 'This counter hasn\'t been clicked',
+        lastClickTimestamp: 'This counter hasn\'t been clicked'
       }
     ];
     newUsers = state.users;
@@ -100,6 +112,11 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
   case Actions.SET_MAX_COUNTERS:
     user = state.users[state.currentUser];
     user.maxCounters = parseInt(action.maxCounters);
+    newCounters = user.counters;
+    if (newCounters.length > action.maxCounters) {
+      newCounters.splice(action.maxCounters, newCounters.length - action.maxCounters);
+    }
+    user.counters = newCounters;
     newUsers = state.users;
     newUsers[state.currentUser] = user;
     newState = {
@@ -112,7 +129,7 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
     user = state.users[action.username];
     if (!user) {
       user = {
-        maxCounters: 0,
+        maxCounters: -1,
         counters: []
       };
     }
