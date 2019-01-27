@@ -27,15 +27,15 @@ function getCurrentTimestamp() {
 }
 
 const CounterReducer = (state = INITIAL_STATE, action) => {
-  let counter, updatedCounter, newCounters, user, newUsers, newState = {};
+  let oldCounter, updatedCounter, newCounters, user, newUsers, newState = {};
   switch (action.type) {
 
   case Actions.CLICK_COUNTER:
     user = state.users[state.currentUser];
-    counter = user.counters[action.counterIndex];
+    oldCounter = user.counters[action.counterIndex];
     updatedCounter = {
-      ...counter,
-      numberOfClicks: counter.numberOfClicks + 1
+      ...oldCounter,
+      numberOfClicks: oldCounter.numberOfClicks + 1
     };
     if (updatedCounter.numberOfClicks === 1) {
       updatedCounter.firstClickTimestamp = getCurrentTimestamp();
@@ -56,15 +56,56 @@ const CounterReducer = (state = INITIAL_STATE, action) => {
 
   case Actions.RESET_COUNTER:
     user = state.users[state.currentUser];
-    counter = user.counters[action.counterIndex];
+    oldCounter = user.counters[action.counterIndex];
     updatedCounter = {
-      ...counter,
+      ...oldCounter,
       numberOfClicks: 0
     };
     newCounters = [
       ...user.counters
     ];
     newCounters[action.counterIndex] = updatedCounter;
+    user.counters = newCounters;
+    newUsers = state.users;
+    newUsers[state.currentUser] = user;
+    newState = {
+      ...state,
+      users: newUsers
+    };
+    break;
+
+  case Actions.RESET_COUNTERS:
+    user = state.users[state.currentUser];
+    newCounters = [
+      ...user.counters
+    ];
+    user.counters.forEach((counter, index) => {
+      updatedCounter = {
+        ...counter,
+        numberOfClicks: 0
+      };
+      newCounters[index] = updatedCounter;
+    });
+    user.counters = newCounters;
+    newUsers = state.users;
+    newUsers[state.currentUser] = user;
+    newState = {
+      ...state,
+      users: newUsers
+    };
+    break;
+
+  case Actions.CHANGE_NAME:
+    user = state.users[state.currentUser];
+    oldCounter = user.counters[action.payload.counterIndex];
+    updatedCounter = {
+      ...oldCounter,
+      name: action.payload.counterName
+    };
+    newCounters = [
+      ...user.counters
+    ];
+    newCounters[action.payload.counterIndex] = updatedCounter;
     user.counters = newCounters;
     newUsers = state.users;
     newUsers[state.currentUser] = user;

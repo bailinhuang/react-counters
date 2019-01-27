@@ -8,8 +8,11 @@ function Settings(props) {
 
   return (
     <div className='container--fluid'>
-      <button className='button button__text' type='button' onClick={onResetCounters}>Reset Counters</button>
       <SingleForm title='Settings' label='Max Counters' type='number' icon='check' onSubmit={onSetMaxCounters}></SingleForm>
+      <div className='form form--small'>
+        <p className='form__label'>Reset All Counters</p>
+        <button className='button button__text button__text--big' type='button' onClick={onResetCounters}>Reset</button>
+      </div>
     </div>
   );
 }

@@ -151,6 +151,11 @@ ul, ol {
   color: #505050;
 }
 
+.nav__link--active:link,
+.nav__link--active:visited {
+  color: #777;
+}
+
 .counters {
   flex: 1 1 100%;
 }
@@ -231,6 +236,21 @@ ul, ol {
   background-color: #F3EEEB;
   min-width: 20rem;
   padding: 1.56rem 1.87rem;
+}
+
+.counter__input {
+  flex: 1 1 100%;
+  width: 100%;
+  background-color: #fff;
+
+  border: none;
+  border-radius: 3px;
+  box-shadow: none;
+  padding: 0.62rem 0.93rem;
+
+  font-size: 1.25rem;
+  font-family: 'Lato', sans-serif;
+  text-align: center;
 }
 
 .single-form {
@@ -387,6 +407,11 @@ ul, ol {
   font-size: 1rem;
 }
 
+.button__text--big {
+  padding: .62rem 1.25rem;
+  font-size: 1.12rem;
+}
+
 .button__icon { 
   font-size: 2.5rem;
 }
@@ -399,8 +424,16 @@ ul, ol {
   margin-top: 3.5rem;
 }
 
-.ml-0 {
+.ml-none {
   margin-left: 0;
+}
+
+.ml-xs {
+  margin-left: 0.62rem;
+}
+
+.ml-md {
+  margin-left: 3.5rem;
 }
 
 .p-none {

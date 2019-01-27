@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 
 function Header(props) {
 
@@ -14,8 +14,8 @@ function Header(props) {
 
   const navList = (
     <ul className='nav__list'>
-      <li className='nav__item'><Link to='/home' className='nav__link'>Home</Link></li>
-      <li className='nav__item'><Link to='/settings' className='nav__link'>Settings</Link></li>
+      <li className='nav__item'><NavLink to='/home' exact activeClassName='nav__link--active' className='nav__link'>Home</NavLink></li>
+      <li className='nav__item'><NavLink to='/settings' exact activeClassName='nav__link--active' className='nav__link'>Settings</NavLink></li>
       <li className='nav__item'><button className='button button__text' type='button' onClick={handleLogout}>Logout</button></li>
     </ul>
   );

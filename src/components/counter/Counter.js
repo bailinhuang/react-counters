@@ -34,7 +34,10 @@ export default class Counter extends Component {
       <div className='counter'>
         <div className='counter__title'>
           <p className='counter__name'>{name}</p>
-          <Link to={`/counter?user=${currentUser}&counterIndex=${counterIndex}`} className='book__button button button--small'><i className="material-icons">settings</i></Link>
+          <Link to={{
+            pathname: '/counter',
+            search: `?user=${currentUser}&counterIndex=${counterIndex}`
+          }} className='book__button button button--small'><i className="material-icons">settings</i></Link>
         </div>
         <div className='counter__details'>
           <p className='counter__clicks'>{numberOfClicks}</p>

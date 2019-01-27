@@ -7,7 +7,7 @@ function Header(props) {
 
   const handleLogin = (username) => {
     props.onLogin(username);
-    props.history.push('/home');
+    props.history.replace('/home');
   };
 
   return (
