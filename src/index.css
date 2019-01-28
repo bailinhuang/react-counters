@@ -39,7 +39,7 @@ ul, ol {
 .heading__primary {
   text-transform: uppercase;
   font-weight: 300;
-  font-size: 4.37rem;
+  font-size: 3.75rem;
   color: #fff;
 }
 
@@ -113,8 +113,9 @@ ul, ol {
 .nav {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav__name {
@@ -128,9 +129,11 @@ ul, ol {
 }
 
 .nav__list {
+  flex-basis: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: .93rem;
 }
 
 .nav__item:not(:last-child) {
@@ -234,8 +237,7 @@ ul, ol {
 .counter-details {
   border-radius: 3px;
   background-color: #F3EEEB;
-  min-width: 20rem;
-  padding: 1.56rem 1.87rem;
+  padding: 1.25rem 1.56rem;
 }
 
 .counter__input {
@@ -471,9 +473,23 @@ ul, ol {
     padding: 4.5rem 2.18rem;
   }
 
+  .nav {
+    justify-content: space-between;
+  }
+
+  .nav__list {
+    flex-basis: auto;
+    margin-top: 0;
+  }
+
   .counter {
     flex-basis: calc(50% - 1.09rem);
     margin-bottom: 2.18rem;
+  }
+
+  .counter-details {
+    min-width: 20rem;
+    padding: 1.56rem 1.87rem;
   }
 
   .mb-none {

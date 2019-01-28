@@ -25,11 +25,12 @@ class App extends Component {
                 <Login onLogin={onLogin}></Login>
               )} />
               {
-                isLoggedIn ? <React.Fragment>
-                  <Route path='/home' component={CounterList} />
-                  <Route path='/settings' render={()=>(<Settings onSetMaxCounters={onSetMaxCounters} onResetCounters={onResetCounters}></Settings>)} />
-                  <Route path='/counter' component={CounterDetails} />
-                </React.Fragment> :
+                isLoggedIn ? 
+                  <React.Fragment>
+                    <Route path='/home' component={CounterList} />
+                    <Route path='/settings' render={()=>(<Settings onSetMaxCounters={onSetMaxCounters} onResetCounters={onResetCounters}></Settings>)} />
+                    <Route path='/counter' component={CounterDetails} />
+                  </React.Fragment> :
                   <React.Fragment>
                     <Redirect to='/'></Redirect>
                   </React.Fragment>
